@@ -28,6 +28,7 @@
 
 require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
 require_once(dirname(__FILE__) . '/lib.php');
+global $DB,$CFG,$PAGE;
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module ID, or
 $n = optional_param('n', 0, PARAM_INT);  // ... soi instance ID - it should be named as the first character of the module.
@@ -59,10 +60,11 @@ $event->trigger();
 $PAGE->set_url('/mod/soi/view.php', array('id' => $cm->id));
 $PAGE->set_title(format_string($soi->name));
 $PAGE->set_heading(format_string($course->fullname));
-
+$PAGE->requires->jquery();
 // Output starts here.
 echo $OUTPUT->header();
 
+$data = $DB->get_record_sql("Select * From {soi_feedback_area} WHERE userid = ?", [$USER->id]);
 $PAGE->set_url('/user/editadvanced.php', array('course' => 1, 'id' => 2));
 
 //heading
@@ -76,11 +78,11 @@ echo html_writer::end_tag('h6');
 echo html_writer::start_tag('div', ["class" => "border-box"]);
 echo html_writer::start_tag('ol');
 echo html_writer::start_tag('li');
-echo "<span>".$USER->first_behavioral."</span><span style='color:#000; float:right;'>Word count: " . str_word_count($USER->first_behavioral) . "</span>";
+echo "<span>".$data->first_behavioral."</span><span style='color:#000; float:right;'>Word count: " . str_word_count($data->first_behavioral) . "</span>";
 echo html_writer::end_tag('li');
 echo html_writer::start_tag('hr', ["style" => "margin: 6px"]);
 echo html_writer::start_tag('li');
-echo "<span>".$USER->second_behavioral."</span><span style='color:#000; float:right;'>Word count: " . str_word_count($USER->second_behavioral) . "</span>";
+echo "<span>".$data->second_behavioral."</span><span style='color:#000; float:right;'>Word count: " . str_word_count($data->second_behavioral) . "</span>";
 echo html_writer::end_tag('li');
 echo html_writer::end_tag('ol');
 echo html_writer::end_tag('div');
@@ -93,11 +95,11 @@ echo html_writer::end_tag('h6');
 echo html_writer::start_tag('div', ["class" => "border-box"]);
 echo html_writer::start_tag('ol');
 echo html_writer::start_tag('li');
-echo "<span>".$USER->first_development."</span><span style='color:#000; float:right;'>Word count: " . str_word_count($USER->first_development) . "</span>";
+echo "<span>".$data->first_development."</span><span style='color:#000; float:right;'>Word count: " . str_word_count($data->first_development) . "</span>";
 echo html_writer::end_tag('li');
 echo html_writer::start_tag('hr', ["style" => "margin: 6px"]);
 echo html_writer::start_tag('li');
-echo "<span>".$USER->second_development."</span><span style='color:#000; float:right;'>Word count: " . str_word_count($USER->second_development) . "</span>";
+echo "<span>".$data->second_development."</span><span style='color:#000; float:right;'>Word count: " . str_word_count($data->second_development) . "</span>";
 echo html_writer::end_tag('li');
 echo html_writer::end_tag('ol');
 echo html_writer::end_tag('div');
@@ -115,7 +117,7 @@ echo "Feedback from my team:";
 echo html_writer::end_tag('h6');
 echo html_writer::start_tag('div', ["class" => "feedback_history history_scroll"]);
 
-$feedbacks = $DB->get_records_sql("Select * From {userfeedback} WHERE soi_id = ? AND receiver_id = ? Order by id DESC", [$id, $USER->id]);
+$feedbacks = $DB->get_records_sql("Select * From {soi_userfeedback} WHERE soi_id = ? AND receiver_id = ? Order by id DESC", [$id, $USER->id]);
 if ($feedbacks) {
     echo html_writer::start_tag('ul');
     foreach ($feedbacks as $feedback) {
@@ -187,9 +189,9 @@ $slectedMember .= html_writer::end_tag('span');
 echo "New feedback to $slectedMember:";
 echo html_writer::end_tag('h6');
 echo html_writer::start_tag('div', ["class" => "feedback_box"]);
-echo html_writer::start_tag('form', ["method" => "post", "action" => "submit_feedback.php"]);
+echo html_writer::start_tag('form', ["method" => "post"]);
 echo html_writer::start_tag('input', ["type" => "hidden", "name" => "receiver_id", "id" => "receiver_id", "value" => "0"]);
-echo html_writer::start_tag('textarea', ["name" => "comment", "id" => "comment", "style" => "width:98%;background-color: rgb(255, 255, 166);", "rows" => "5"]);
+echo html_writer::start_tag('textarea', ["name" => "comment", "id" => "comment", "style" => "width:100%;", "rows" => "5"]);
 echo html_writer::end_tag('textarea');
 echo html_writer::start_tag('input', ["type" => "submit", "name" => "feedback_submit", "id" => "submit_feedback", "style" => "float: right;"]);
 echo html_writer::start_tag('div', ["id" => "feedback_msg"]);
@@ -326,44 +328,44 @@ echo html_writer::end_tag('div');
                     </button>
                 </div>
             </div>
-            <form id="strength_form" action="<?php echo "ajax_strength.php?id='" . $cm->id . "'"; ?>" method="post">
+            <form id="strength_form" action="<?php echo "ajax_strength.php?id=".$USER->id; ?>" method="post">
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="comment" class="starlabel"
                             title="Please fill out this field. Minimum 75 words.">1st Behavioral Strength</label>
-                        <span id="showCount1">Word count: <?php echo str_word_count($USER->first_behavioral); ?></span>
+                        <span id="showCount1">Word count: <?php echo str_word_count($data->first_behavioral); ?></span>
                         <textarea class="form-control" rows="4" cols="100" id="txt_first_stregth"
                             name="txt_first_stregth"
                             placeholder="Please enter the first strength that you bring to your team.  Your two strengths must be behavioral characteristics that other team members, faculty, and leaders can observe.  You can use peer feedback, assessments like the Hogan assessments or other 360-degree instruments, personal assessments, etc.  Your team members will read these and give you feedback on your performance during the program in this context."
-                            required><?php echo $USER->first_behavioral; ?></textarea>
+                            required><?php echo $data->first_behavioral; ?></textarea>
 
                     </div>
                     <div class="form-group">
                         <label for="comment" class="starlabel"
                             title="Please fill out this field. Minimum 75 words.">2nd Behavioral Strength</label>
-                        <span id="showCount2">Word count: <?php echo str_word_count($USER->second_behavioral); ?></span>
+                        <span id="showCount2">Word count: <?php echo str_word_count($data->second_behavioral); ?></span>
                         <textarea class="form-control" rows="3" cols="100" id="txt_second_stregth"
                             name="txt_second_stregth"
                             placeholder="Please enter the second behavioral strength that you bring to your team."
-                            required><?php echo $USER->second_behavioral; ?></textarea>
+                            required><?php echo $data->second_behavioral; ?></textarea>
                     </div>
                     <div class="form-group">
                         <label for="comment" class="starlabel"
                             title="Please fill out this field. Minimum 75 words.">1st Behavioral Development Area</label>
-                        <span id="showCount3">Word count: <?php echo str_word_count($USER->first_development); ?></span>
+                        <span id="showCount3">Word count: <?php echo str_word_count($data->first_development); ?></span>
                         <textarea class="form-control" rows="5" cols="100" id="txt_first_development"
                             name="txt_first_development"
                             placeholder="Please enter the first development area you wish to work on during the exercise.  Your two development areas must be behavioral characteristics that other team members, faculty, and leaders can observe.  You can use peer feedback, assessments like the Hogan assessments or other 360-degree instruments, personal assessments, etc.  Your team members will read these and give you feedback on your performance during the program in this context.  To maximize your experience, keep your development areas front of mind."
-                            required><?php echo $USER->first_development; ?></textarea>
+                            required><?php echo $data->first_development; ?></textarea>
                     </div>
                     <div class="form-group">
                         <label for="comment" class="starlabel"
                             title="Please fill out this field. Minimum 75 words.">2nd Behavioral Development Area</label>
-                        <span id="showCount4">Word count: <?php echo str_word_count($USER->second_development); ?></span>
+                        <span id="showCount4">Word count: <?php echo str_word_count($data->second_development); ?></span>
                         <textarea class="form-control" rows="3" cols="100" id="txt_second_development"
                             name="txt_second_development"
                             placeholder="Please enter the second behavioral strength you wish to work on during the exercise."
-                            required><?php echo $USER->second_development; ?></textarea>
+                            required><?php echo $data->second_development; ?></textarea>
                     </div>
                     <button id="scroll-to-top-button"></button>
                 </div>
@@ -476,7 +478,7 @@ echo html_writer::end_tag('div');
                 return false;
             } else {
                 $.ajax({
-                    url: '<?php echo "/mod/soi/feedback_submit.php"; ?>',
+                    url: '<?php echo $CFG->wwwroot . "/mod/soi/feedback_submit.php"; ?>',
                     type: "POST",
                     data: {
                         soi_id: soi_id,
@@ -502,7 +504,7 @@ echo html_writer::end_tag('div');
         $("#strength_form #txt_first_stregth").keyup(function () {
             var count = ($(this).val() === null || $(this).val() === '') ? 0 : wordCount($(this).val());
             if (wordCount($(this).val()) < 74) {
-                $("#showCount1").html("Insufficient Words. Word count: " + count);
+                $("#showCount1").html("Word count: " + count);
                 $("#showCount1").css("color", "red");
             } else {
                 $("#showCount1").html("Word count: " + count);
@@ -513,7 +515,7 @@ echo html_writer::end_tag('div');
             var count = ($(this).val() === null || $(this).val() === '') ? 0 : wordCount($(this).val());
 
             if (wordCount($(this).val()) < 74) {
-                $("#showCount2").html("Insufficient Words. Word count: " + count);
+                $("#showCount2").html("Word count: " + count);
                 $("#showCount2").css("color", "red");
             } else {
                 $("#showCount2").html("Word count: " + count);
@@ -523,7 +525,7 @@ echo html_writer::end_tag('div');
         $("#strength_form #txt_first_development").keyup(function () {
             var count = ($(this).val() === null || $(this).val() === '') ? 0 : wordCount($(this).val());
             if (wordCount($(this).val()) < 74) {
-                $("#showCount3").html("Insufficient Words. Word count: " + count);
+                $("#showCount3").html("Word count: " + count);
                 $("#showCount3").css("color", "red");
             } else {
                 $("#showCount3").html("Word count: " + count);
@@ -533,7 +535,7 @@ echo html_writer::end_tag('div');
         $("#strength_form #txt_second_development").keyup(function () {
             var count = ($(this).val() === null || $(this).val() === '') ? 0 : wordCount($(this).val());
             if (wordCount($(this).val()) < 74) {
-                $("#showCount4").html("Insufficient Words. Word count: " + count);
+                $("#showCount4").html("Word count: " + count);
                 $("#showCount4").css("color", "red");
             } else {
                 $("#showCount4").html("Word count: " + count);

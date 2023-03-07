@@ -1,27 +1,30 @@
 <?php
-
 require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
 require_once(dirname(__FILE__) . '/lib.php');
 
-$comment = isset($_POST['comment']) ? $_POST['comment'] : 0;
-$receiver_id = isset($_POST['receiver_id']) ? $_POST['receiver_id'] : 0;
-$soi_id = isset($_POST['soi_id']) ? $_POST['soi_id'] : 0;
+global $DB, $USER, $CFG;
+
+$comment = optional_param('comment', '', PARAM_TEXT);
+$receiver_id = optional_param('receiver_id', 0, PARAM_INT);
+$soi_id = optional_param('soi_id', 0, PARAM_INT);;
 $provider_id = $USER->id;
 
-$record = new stdClass();
-$record->provider_id = $provider_id;
-$record->receiver_id = $receiver_id;
-$record->soi_id = $soi_id;
-$record->comment = $comment;
-$record->created_at = date("Y-m-d h:i:s");
-$lastinsertid = $DB->insert_record('userfeedback', $record);
+$lastinsertid = $DB->insert_record('soi_userfeedback', [
+    'provider_id' => intval($provider_id),
+    'receiver_id' => intval($receiver_id),
+    'soi_id' => intval($soi_id),
+    'comment' => $comment,
+    'created_at' => strtotime(date("Y-m-d h:i:s"))
+]);
 
 if ($lastinsertid) {
 
-    $feedbacks = $DB->get_records_sql("Select * From {userfeedback} WHERE (soi_id = ? AND (provider_id = ? AND receiver_id = ?)) order by id DESC", [$soi_id, $provider_id, $receiver_id]);
-    $userDetail = $DB->get_record_sql("Select * From {user} WHERE id = ? ", [$receiver_id]);
+    $feedbacks = $DB->get_records_sql("Select * From {soi_userfeedback} WHERE (soi_id = ? AND (provider_id = ? AND receiver_id = ?)) order by id DESC", [$soi_id, $provider_id, $receiver_id]);
+    $userDetail = $DB->get_record_sql("Select * From {soi_feedback_area} WHERE userid = ? ", [$receiver_id]);
+    $receiver = $DB->get_record('user', ['id' => $receiver_id]);
+
     echo html_writer::start_tag('h6');
-    echo "Feedback from $USER->username to $userDetail->username:";
+    echo "Feedback from $USER->username to $receiver->username:";
     echo html_writer::end_tag('h6');
     echo html_writer::start_tag('div', ["class" => "border-box history_scroll"]);
     if ($feedbacks) {

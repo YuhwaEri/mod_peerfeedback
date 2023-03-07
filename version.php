@@ -28,8 +28,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'mod_soi';
-$plugin->version = 2017111300;
-$plugin->release = 'v0.0';
+$plugin->version = 2023030105;
+$plugin->release = 'v1.0.0';
 $plugin->requires = 2017110800;
 $plugin->maturity = MATURITY_ALPHA;
 $plugin->cron = 0;

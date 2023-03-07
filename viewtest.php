@@ -168,7 +168,7 @@ echo html_writer::start_tag('h6');
 echo "Feedback from my team:";
 echo html_writer::end_tag('h6');
 echo html_writer::start_tag('div', ["class" => "feedback_history history_scroll"]);
-$feedbacks = $DB->get_records_sql("Select * From {userfeedback} WHERE soi_id = ? AND receiver_id = ? Order by id DESC", [$id, $USER->id]);
+$feedbacks = $DB->get_records_sql("Select * From {soi_userfeedback} WHERE soi_id = ? AND receiver_id = ? Order by id DESC", [$id, $USER->id]);
 if ($feedbacks) {
     echo html_writer::start_tag('ul');
     foreach ($feedbacks as $feedback) {
