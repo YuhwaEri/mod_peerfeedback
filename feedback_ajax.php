@@ -5,10 +5,11 @@ require_once(dirname(__FILE__) . '/lib.php');
 
 $provider_id = isset($_POST['provider_id']) ? $_POST['provider_id'] : 0;
 $receiver_id = isset($_POST['receiver_id']) ? $_POST['receiver_id'] : 0;
-$soi_id = isset($_POST['soi_id']) ? $_POST['soi_id'] : 0;
+$peerfeedback_id = isset($_POST['peerfeedback_id']) ? $_POST['peerfeedback_id'] : 0;
 
 
 $userDetail = $DB->get_record_sql("Select * From {user} WHERE id = ?", [$receiver_id]);
+
 $strength = '';
 $development = '';
 if ($userDetail) {
@@ -49,7 +50,7 @@ if ($userDetail) {
 }
 
 
-$feedbacks = $DB->get_records_sql("Select * From {userfeedback} WHERE (soi_id = ? AND (provider_id = ? AND receiver_id = ?)) order by id DESC", [$soi_id, $provider_id, $receiver_id]);
+$feedbacks = $DB->get_records_sql("Select * From {userfeedback} WHERE (soi_id = ? AND (provider_id = ? AND receiver_id = ?)) order by id DESC", [$peerfeedback_id, $provider_id, $receiver_id]);
 
 $feeds = html_writer::start_tag('h6');
 $feeds .= "Feedback from $USER->username to $userDetail->username:";

@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Defines backup_soi_activity_task class
+ * Defines backup_peerfeedback_activity_task class
  *
- * @package   mod_soi
+ * @package   mod_peerfeedback
  * @category  backup
  * @copyright 2016 Your Name <your@email.address>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -25,17 +25,17 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-require_once($CFG->dirroot . '/mod/soi/backup/moodle2/backup_soi_stepslib.php');
+require_once($CFG->dirroot . '/mod/peerfeedback/backup/moodle2/backup_peerfeedback_stepslib.php');
 
 /**
- * Provides the steps to perform one complete backup of the soi instance
+ * Provides the steps to perform one complete backup of the peerfeedback instance
  *
- * @package   mod_soi
+ * @package   mod_peerfeedback
  * @category  backup
  * @copyright 2016 Your Name <your@email.address>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class backup_soi_activity_task extends backup_activity_task {
+class backup_peerfeedback_activity_task extends backup_activity_task {
 
     /**
      * No specific settings for this activity
@@ -44,10 +44,10 @@ class backup_soi_activity_task extends backup_activity_task {
     }
 
     /**
-     * Defines a backup step to store the instance data in the soi.xml file
+     * Defines a backup step to store the instance data in the peerfeedback.xml file
      */
     protected function define_my_steps() {
-        $this->add_step(new backup_soi_activity_structure_step('soi_structure', 'soi.xml'));
+        $this->add_step(new backup_peerfeedback_activity_structure_step('peerfeedback_structure', 'peerfeedback.xml'));
     }
 
     /**
@@ -61,12 +61,12 @@ class backup_soi_activity_task extends backup_activity_task {
 
         $base = preg_quote($CFG->wwwroot, '/');
 
-        // Link to the list of sois.
-        $search = '/('.$base.'\/mod\/soi\/index.php\?id\=)([0-9]+)/';
+        // Link to the list of peerfeedbacks.
+        $search = '/('.$base.'\/mod\/peerfeedback\/index.php\?id\=)([0-9]+)/';
         $content = preg_replace($search, '$@SOIINDEX*$2@$', $content);
 
-        // Link to soi view by moduleid.
-        $search = '/('.$base.'\/mod\/soi\/view.php\?id\=)([0-9]+)/';
+        // Link to peerfeedback view by moduleid.
+        $search = '/('.$base.'\/mod\/peerfeedback\/view.php\?id\=)([0-9]+)/';
         $content = preg_replace($search, '$@SOIVIEWBYID*$2@$', $content);
 
         return $content;

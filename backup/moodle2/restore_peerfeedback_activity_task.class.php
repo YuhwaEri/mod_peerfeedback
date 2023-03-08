@@ -17,7 +17,7 @@
 /**
  * Provides the restore activity task class
  *
- * @package   mod_soi
+ * @package   mod_peerfeedback
  * @category  backup
  * @copyright 2016 Your Name <your@email.address>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -25,19 +25,19 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot . '/mod/soi/backup/moodle2/restore_soi_stepslib.php');
+require_once($CFG->dirroot . '/mod/peerfeedback/backup/moodle2/restore_peerfeedback_stepslib.php');
 
 /**
- * Restore task for the soi activity module
+ * Restore task for the peerfeedback activity module
  *
  * Provides all the settings and steps to perform complete restore of the activity.
  *
- * @package   mod_soi
+ * @package   mod_peerfeedback
  * @category  backup
  * @copyright 2016 Your Name <your@email.address>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class restore_soi_activity_task extends restore_activity_task {
+class restore_peerfeedback_activity_task extends restore_activity_task {
 
     /**
      * Define (add) particular settings this activity can have
@@ -51,7 +51,7 @@ class restore_soi_activity_task extends restore_activity_task {
      */
     protected function define_my_steps() {
         // We have just one structure step here.
-        $this->add_step(new restore_soi_activity_structure_step('soi_structure', 'soi.xml'));
+        $this->add_step(new restore_peerfeedback_activity_structure_step('peerfeedback_structure', 'peerfeedback.xml'));
     }
 
     /**
@@ -61,7 +61,7 @@ class restore_soi_activity_task extends restore_activity_task {
     static public function define_decode_contents() {
         $contents = array();
 
-        $contents[] = new restore_decode_content('soi', array('intro'), 'soi');
+        $contents[] = new restore_decode_content('peerfeedback', array('intro'), 'peerfeedback');
 
         return $contents;
     }
@@ -73,8 +73,8 @@ class restore_soi_activity_task extends restore_activity_task {
     static public function define_decode_rules() {
         $rules = array();
 
-        $rules[] = new restore_decode_rule('SOIVIEWBYID', '/mod/soi/view.php?id=$1', 'course_module');
-        $rules[] = new restore_decode_rule('SOIINDEX', '/mod/soi/index.php?id=$1', 'course');
+        $rules[] = new restore_decode_rule('SOIVIEWBYID', '/mod/peerfeedback/view.php?id=$1', 'course_module');
+        $rules[] = new restore_decode_rule('SOIINDEX', '/mod/peerfeedback/index.php?id=$1', 'course');
 
         return $rules;
 
@@ -83,15 +83,15 @@ class restore_soi_activity_task extends restore_activity_task {
     /**
      * Define the restore log rules that will be applied
      * by the {@link restore_logs_processor} when restoring
-     * soi logs. It must return one array
+     * peerfeedback logs. It must return one array
      * of {@link restore_log_rule} objects
      */
     static public function define_restore_log_rules() {
         $rules = array();
 
-        $rules[] = new restore_log_rule('soi', 'add', 'view.php?id={course_module}', '{soi}');
-        $rules[] = new restore_log_rule('soi', 'update', 'view.php?id={course_module}', '{soi}');
-        $rules[] = new restore_log_rule('soi', 'view', 'view.php?id={course_module}', '{soi}');
+        $rules[] = new restore_log_rule('peerfeedback', 'add', 'view.php?id={course_module}', '{peerfeedback}');
+        $rules[] = new restore_log_rule('peerfeedback', 'update', 'view.php?id={course_module}', '{peerfeedback}');
+        $rules[] = new restore_log_rule('peerfeedback', 'view', 'view.php?id={course_module}', '{peerfeedback}');
 
         return $rules;
     }
@@ -109,7 +109,7 @@ class restore_soi_activity_task extends restore_activity_task {
     static public function define_restore_log_rules_for_course() {
         $rules = array();
 
-        $rules[] = new restore_log_rule('soi', 'view all', 'index.php?id={course}', null);
+        $rules[] = new restore_log_rule('peerfeedback', 'view all', 'index.php?id={course}', null);
 
         return $rules;
     }

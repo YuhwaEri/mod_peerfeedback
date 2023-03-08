@@ -15,16 +15,16 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Library of interface functions and constants for module soi
+ * Library of interface functions and constants for module peerfeedback
  *
  * All the core Moodle functions, neeeded to allow the module to work
  * integrated in Moodle should be placed here.
  *
- * All the soi specific functions, needed to implement all the module
+ * All the peerfeedback specific functions, needed to implement all the module
  * logic, should go to locallib.php. This will help to save some memory when
  * Moodle is performing actions across all modules.
  *
- * @package    mod_soi
+ * @package    mod_peerfeedback
  * @copyright  2016 Your Name <your@email.address>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -46,7 +46,7 @@ define('SOI_ULTIMATE_ANSWER', 42);
  * @param string $feature FEATURE_xx constant for requested feature
  * @return mixed true if the feature is supported, null if unknown
  */
-function soi_supports($feature) {
+function peerfeedback_supports($feature) {
 
     switch($feature) {
         case FEATURE_MOD_INTRO:
@@ -63,53 +63,53 @@ function soi_supports($feature) {
 }
 
 /**
- * Saves a new instance of the soi into the database
+ * Saves a new instance of the peerfeedback into the database
  *
  * Given an object containing all the necessary data,
  * (defined by the form in mod_form.php) this function
  * will create a new instance and return the id number
  * of the new instance.
  *
- * @param stdClass $soi Submitted data from the form in mod_form.php
- * @param mod_soi_mod_form $mform The form instance itself (if needed)
- * @return int The id of the newly inserted soi record
+ * @param stdClass $peerfeedback Submitted data from the form in mod_form.php
+ * @param mod_peerfeedback_mod_form $mform The form instance itself (if needed)
+ * @return int The id of the newly inserted peerfeedback record
  */
-function soi_add_instance(stdClass $soi, mod_soi_mod_form $mform = null) {
+function peerfeedback_add_instance(stdClass $peerfeedback, mod_peerfeedback_mod_form $mform = null) {
     global $DB;
 
-    $soi->timecreated = time();
+    $peerfeedback->timecreated = time();
 
     // You may have to add extra stuff in here.
 
-    $soi->id = $DB->insert_record('soi', $soi);
+    $peerfeedback->id = $DB->insert_record('peerfeedback', $peerfeedback);
 
-    soi_grade_item_update($soi);
+    peerfeedback_grade_item_update($peerfeedback);
 
-    return $soi->id;
+    return $peerfeedback->id;
 }
 
 /**
- * Updates an instance of the soi in the database
+ * Updates an instance of the peerfeedback in the database
  *
  * Given an object containing all the necessary data,
  * (defined by the form in mod_form.php) this function
  * will update an existing instance with new data.
  *
- * @param stdClass $soi An object from the form in mod_form.php
- * @param mod_soi_mod_form $mform The form instance itself (if needed)
+ * @param stdClass $peerfeedback An object from the form in mod_form.php
+ * @param mod_peerfeedback_mod_form $mform The form instance itself (if needed)
  * @return boolean Success/Fail
  */
-function soi_update_instance(stdClass $soi, mod_soi_mod_form $mform = null) {
+function peerfeedback_update_instance(stdClass $peerfeedback, mod_peerfeedback_mod_form $mform = null) {
     global $DB;
 
-    $soi->timemodified = time();
-    $soi->id = $soi->instance;
+    $peerfeedback->timemodified = time();
+    $peerfeedback->id = $peerfeedback->instance;
 
     // You may have to add extra stuff in here.
 
-    $result = $DB->update_record('soi', $soi);
+    $result = $DB->update_record('peerfeedback', $peerfeedback);
 
-    soi_grade_item_update($soi);
+    peerfeedback_grade_item_update($peerfeedback);
 
     return $result;
 }
@@ -117,36 +117,36 @@ function soi_update_instance(stdClass $soi, mod_soi_mod_form $mform = null) {
 /**
  * This standard function will check all instances of this module
  * and make sure there are up-to-date events created for each of them.
- * If courseid = 0, then every soi event in the site is checked, else
- * only soi events belonging to the course specified are checked.
+ * If courseid = 0, then every peerfeedback event in the site is checked, else
+ * only peerfeedback events belonging to the course specified are checked.
  * This is only required if the module is generating calendar events.
  *
  * @param int $courseid Course ID
  * @return bool
  */
-function soi_refresh_events($courseid = 0) {
+function peerfeedback_refresh_events($courseid = 0) {
     global $DB;
 
     if ($courseid == 0) {
-        if (!$sois = $DB->get_records('soi')) {
+        if (!$peerfeedbacks = $DB->get_records('peerfeedback')) {
             return true;
         }
     } else {
-        if (!$sois = $DB->get_records('soi', array('course' => $courseid))) {
+        if (!$peerfeedbacks = $DB->get_records('peerfeedback', array('course' => $courseid))) {
             return true;
         }
     }
 
-    foreach ($sois as $soi) {
+    foreach ($peerfeedbacks as $peerfeedback) {
         // Create a function such as the one below to deal with updating calendar events.
-        // soi_update_events($soi);
+        // peerfeedback_update_events($peerfeedback);
     }
 
     return true;
 }
 
 /**
- * Removes an instance of the soi from the database
+ * Removes an instance of the peerfeedback from the database
  *
  * Given an ID of an instance of this module,
  * this function will permanently delete the instance
@@ -155,18 +155,18 @@ function soi_refresh_events($courseid = 0) {
  * @param int $id Id of the module instance
  * @return boolean Success/Failure
  */
-function soi_delete_instance($id) {
+function peerfeedback_delete_instance($id) {
     global $DB;
 
-    if (! $soi = $DB->get_record('soi', array('id' => $id))) {
+    if (! $peerfeedback = $DB->get_record('peerfeedback', array('id' => $id))) {
         return false;
     }
 
     // Delete any dependent records here.
 
-    $DB->delete_records('soi', array('id' => $soi->id));
+    $DB->delete_records('peerfeedback', array('id' => $peerfeedback->id));
 
-    soi_grade_item_delete($soi);
+    peerfeedback_grade_item_delete($peerfeedback);
 
     return true;
 }
@@ -182,10 +182,10 @@ function soi_delete_instance($id) {
  * @param stdClass $course The course record
  * @param stdClass $user The user record
  * @param cm_info|stdClass $mod The course module info object or record
- * @param stdClass $soi The soi instance record
+ * @param stdClass $peerfeedback The peerfeedback instance record
  * @return stdClass|null
  */
-function soi_user_outline($course, $user, $mod, $soi) {
+function peerfeedback_user_outline($course, $user, $mod, $peerfeedback) {
 
     $return = new stdClass();
     $return->time = 0;
@@ -202,21 +202,21 @@ function soi_user_outline($course, $user, $mod, $soi) {
  * @param stdClass $course the current course record
  * @param stdClass $user the record of the user we are generating report for
  * @param cm_info $mod course module info
- * @param stdClass $soi the module instance record
+ * @param stdClass $peerfeedback the module instance record
  */
-function soi_user_complete($course, $user, $mod, $soi) {
+function peerfeedback_user_complete($course, $user, $mod, $peerfeedback) {
 }
 
 /**
  * Given a course and a time, this module should find recent activity
- * that has occurred in soi activities and print it out.
+ * that has occurred in peerfeedback activities and print it out.
  *
  * @param stdClass $course The course record
  * @param bool $viewfullnames Should we display full names
  * @param int $timestart Print activity since this timestamp
  * @return boolean True if anything was printed, otherwise false
  */
-function soi_print_recent_activity($course, $viewfullnames, $timestart) {
+function peerfeedback_print_recent_activity($course, $viewfullnames, $timestart) {
     return false;
 }
 
@@ -225,7 +225,7 @@ function soi_print_recent_activity($course, $viewfullnames, $timestart) {
  *
  * This callback function is supposed to populate the passed array with
  * custom activity records. These records are then rendered into HTML via
- * {@link soi_print_recent_mod_activity()}.
+ * {@link peerfeedback_print_recent_mod_activity()}.
  *
  * Returns void, it adds items into $activities and increases $index.
  *
@@ -237,11 +237,11 @@ function soi_print_recent_activity($course, $viewfullnames, $timestart) {
  * @param int $userid check for a particular user's activity only, defaults to 0 (all users)
  * @param int $groupid check for a particular group's activity only, defaults to 0 (all groups)
  */
-function soi_get_recent_mod_activity(&$activities, &$index, $timestart, $courseid, $cmid, $userid=0, $groupid=0) {
+function peerfeedback_get_recent_mod_activity(&$activities, &$index, $timestart, $courseid, $cmid, $userid=0, $groupid=0) {
 }
 
 /**
- * Prints single activity item prepared by {@link soi_get_recent_mod_activity()}
+ * Prints single activity item prepared by {@link peerfeedback_get_recent_mod_activity()}
  *
  * @param stdClass $activity activity record with added 'cmid' property
  * @param int $courseid the id of the course we produce the report for
@@ -249,7 +249,7 @@ function soi_get_recent_mod_activity(&$activities, &$index, $timestart, $coursei
  * @param array $modnames as returned by {@link get_module_types_names()}
  * @param bool $viewfullnames display users' full names
  */
-function soi_print_recent_mod_activity($activity, $courseid, $detail, $modnames, $viewfullnames) {
+function peerfeedback_print_recent_mod_activity($activity, $courseid, $detail, $modnames, $viewfullnames) {
 }
 
 /**
@@ -262,7 +262,7 @@ function soi_print_recent_mod_activity($activity, $courseid, $detail, $modnames,
  *
  * @return boolean
  */
-function soi_cron () {
+function peerfeedback_cron () {
     return true;
 }
 
@@ -274,26 +274,26 @@ function soi_cron () {
  *
  * @return array
  */
-function soi_get_extra_capabilities() {
+function peerfeedback_get_extra_capabilities() {
     return array();
 }
 
 /* Gradebook API */
 
 /**
- * Is a given scale used by the instance of soi?
+ * Is a given scale used by the instance of peerfeedback?
  *
- * This function returns if a scale is being used by one soi
+ * This function returns if a scale is being used by one peerfeedback
  * if it has support for grading and scales.
  *
- * @param int $soiid ID of an instance of this module
+ * @param int $peerfeedbackid ID of an instance of this module
  * @param int $scaleid ID of the scale
- * @return bool true if the scale is used by the given soi instance
+ * @return bool true if the scale is used by the given peerfeedback instance
  */
-function soi_scale_used($soiid, $scaleid) {
+function peerfeedback_scale_used($peerfeedbackid, $scaleid) {
     global $DB;
 
-    if ($scaleid and $DB->record_exists('soi', array('id' => $soiid, 'grade' => -$scaleid))) {
+    if ($scaleid and $DB->record_exists('peerfeedback', array('id' => $peerfeedbackid, 'grade' => -$scaleid))) {
         return true;
     } else {
         return false;
@@ -301,17 +301,17 @@ function soi_scale_used($soiid, $scaleid) {
 }
 
 /**
- * Checks if scale is being used by any instance of soi.
+ * Checks if scale is being used by any instance of peerfeedback.
  *
  * This is used to find out if scale used anywhere.
  *
  * @param int $scaleid ID of the scale
- * @return boolean true if the scale is used by any soi instance
+ * @return boolean true if the scale is used by any peerfeedback instance
  */
-function soi_scale_used_anywhere($scaleid) {
+function peerfeedback_scale_used_anywhere($scaleid) {
     global $DB;
 
-    if ($scaleid and $DB->record_exists('soi', array('grade' => -$scaleid))) {
+    if ($scaleid and $DB->record_exists('peerfeedback', array('grade' => -$scaleid))) {
         return true;
     } else {
         return false;
@@ -319,29 +319,29 @@ function soi_scale_used_anywhere($scaleid) {
 }
 
 /**
- * Creates or updates grade item for the given soi instance
+ * Creates or updates grade item for the given peerfeedback instance
  *
  * Needed by {@link grade_update_mod_grades()}.
  *
- * @param stdClass $soi instance object with extra cmidnumber and modname property
+ * @param stdClass $peerfeedback instance object with extra cmidnumber and modname property
  * @param bool $reset reset grades in the gradebook
  * @return void
  */
-function soi_grade_item_update(stdClass $soi, $reset=false) {
+function peerfeedback_grade_item_update(stdClass $peerfeedback, $reset=false) {
     global $CFG;
     require_once($CFG->libdir.'/gradelib.php');
 
     $item = array();
-    $item['itemname'] = clean_param($soi->name, PARAM_NOTAGS);
+    $item['itemname'] = clean_param($peerfeedback->name, PARAM_NOTAGS);
     $item['gradetype'] = GRADE_TYPE_VALUE;
 
-    if ($soi->grade > 0) {
+    if ($peerfeedback->grade > 0) {
         $item['gradetype'] = GRADE_TYPE_VALUE;
-        $item['grademax']  = $soi->grade;
+        $item['grademax']  = $peerfeedback->grade;
         $item['grademin']  = 0;
-    } else if ($soi->grade < 0) {
+    } else if ($peerfeedback->grade < 0) {
         $item['gradetype'] = GRADE_TYPE_SCALE;
-        $item['scaleid']   = -$soi->grade;
+        $item['scaleid']   = -$peerfeedback->grade;
     } else {
         $item['gradetype'] = GRADE_TYPE_NONE;
     }
@@ -350,40 +350,40 @@ function soi_grade_item_update(stdClass $soi, $reset=false) {
         $item['reset'] = true;
     }
 
-    grade_update('mod/soi', $soi->course, 'mod', 'soi',
-            $soi->id, 0, null, $item);
+    grade_update('mod/peerfeedback', $peerfeedback->course, 'mod', 'peerfeedback',
+            $peerfeedback->id, 0, null, $item);
 }
 
 /**
- * Delete grade item for given soi instance
+ * Delete grade item for given peerfeedback instance
  *
- * @param stdClass $soi instance object
+ * @param stdClass $peerfeedback instance object
  * @return grade_item
  */
-function soi_grade_item_delete($soi) {
+function peerfeedback_grade_item_delete($peerfeedback) {
     global $CFG;
     require_once($CFG->libdir.'/gradelib.php');
 
-    return grade_update('mod/soi', $soi->course, 'mod', 'soi',
-            $soi->id, 0, null, array('deleted' => 1));
+    return grade_update('mod/peerfeedback', $peerfeedback->course, 'mod', 'peerfeedback',
+            $peerfeedback->id, 0, null, array('deleted' => 1));
 }
 
 /**
- * Update soi grades in the gradebook
+ * Update peerfeedback grades in the gradebook
  *
  * Needed by {@link grade_update_mod_grades()}.
  *
- * @param stdClass $soi instance object with extra cmidnumber and modname property
+ * @param stdClass $peerfeedback instance object with extra cmidnumber and modname property
  * @param int $userid update grade of specific user only, 0 means all participants
  */
-function soi_update_grades(stdClass $soi, $userid = 0) {
+function peerfeedback_update_grades(stdClass $peerfeedback, $userid = 0) {
     global $CFG, $DB;
     require_once($CFG->libdir.'/gradelib.php');
 
     // Populate array of grade objects indexed by userid.
     $grades = array();
 
-    grade_update('mod/soi', $soi->course, 'mod', 'soi', $soi->id, 0, $grades);
+    grade_update('mod/peerfeedback', $peerfeedback->course, 'mod', 'peerfeedback', $peerfeedback->id, 0, $grades);
 }
 
 /* File API */
@@ -399,14 +399,14 @@ function soi_update_grades(stdClass $soi, $userid = 0) {
  * @param stdClass $context
  * @return array of [(string)filearea] => (string)description
  */
-function soi_get_file_areas($course, $cm, $context) {
+function peerfeedback_get_file_areas($course, $cm, $context) {
     return array();
 }
 
 /**
- * File browsing support for soi file areas
+ * File browsing support for peerfeedback file areas
  *
- * @package mod_soi
+ * @package mod_peerfeedback
  * @category files
  *
  * @param file_browser $browser
@@ -420,25 +420,25 @@ function soi_get_file_areas($course, $cm, $context) {
  * @param string $filename
  * @return file_info instance or null if not found
  */
-function soi_get_file_info($browser, $areas, $course, $cm, $context, $filearea, $itemid, $filepath, $filename) {
+function peerfeedback_get_file_info($browser, $areas, $course, $cm, $context, $filearea, $itemid, $filepath, $filename) {
     return null;
 }
 
 /**
- * Serves the files from the soi file areas
+ * Serves the files from the peerfeedback file areas
  *
- * @package mod_soi
+ * @package mod_peerfeedback
  * @category files
  *
  * @param stdClass $course the course object
  * @param stdClass $cm the course module object
- * @param stdClass $context the soi's context
+ * @param stdClass $context the peerfeedback's context
  * @param string $filearea the name of the file area
  * @param array $args extra arguments (itemid, path)
  * @param bool $forcedownload whether or not force download
  * @param array $options additional options affecting the file serving
  */
-function soi_pluginfile($course, $cm, $context, $filearea, array $args, $forcedownload, array $options=array()) {
+function peerfeedback_pluginfile($course, $cm, $context, $filearea, array $args, $forcedownload, array $options=array()) {
     global $DB, $CFG;
 
     if ($context->contextlevel != CONTEXT_MODULE) {
@@ -453,28 +453,28 @@ function soi_pluginfile($course, $cm, $context, $filearea, array $args, $forcedo
 /* Navigation API */
 
 /**
- * Extends the global navigation tree by adding soi nodes if there is a relevant content
+ * Extends the global navigation tree by adding peerfeedback nodes if there is a relevant content
  *
  * This can be called by an AJAX request so do not rely on $PAGE as it might not be set up properly.
  *
- * @param navigation_node $navref An object representing the navigation tree node of the soi module instance
+ * @param navigation_node $navref An object representing the navigation tree node of the peerfeedback module instance
  * @param stdClass $course current course record
- * @param stdClass $module current soi instance record
+ * @param stdClass $module current peerfeedback instance record
  * @param cm_info $cm course module information
  */
-function soi_extend_navigation(navigation_node $navref, stdClass $course, stdClass $module, cm_info $cm) {
+function peerfeedback_extend_navigation(navigation_node $navref, stdClass $course, stdClass $module, cm_info $cm) {
     // TODO Delete this function and its docblock, or implement it.
 }
 
 /**
- * Extends the settings navigation with the soi settings
+ * Extends the settings navigation with the peerfeedback settings
  *
- * This function is called when the context for the page is a soi module. This is not called by AJAX
+ * This function is called when the context for the page is a peerfeedback module. This is not called by AJAX
  * so it is safe to rely on the $PAGE.
  *
  * @param settings_navigation $settingsnav complete settings navigation tree
- * @param navigation_node $soinode soi administration node
+ * @param navigation_node $peerfeedbacknode peerfeedback administration node
  */
-function soi_extend_settings_navigation(settings_navigation $settingsnav, navigation_node $soinode=null) {
+function peerfeedback_extend_settings_navigation(settings_navigation $settingsnav, navigation_node $peerfeedbacknode=null) {
     // TODO Delete this function and its docblock, or implement it.
 }

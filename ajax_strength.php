@@ -4,8 +4,8 @@ require_once(dirname(__FILE__) . '/lib.php');
 
 //Update Strength and Development areas
 $valid = false;
-$soi_id = isset($_GET['id']) ? $_GET['id'] : 0;
-if ($soi_id) {
+$peerfeedback_id = isset($_GET['id']) ? $_GET['id'] : 0;
+if ($peerfeedback_id) {
   $txt_first_stregth = $_POST['txt_first_stregth'];
   $txt_second_stregth = $_POST['txt_second_stregth'];
   $txt_first_development = $_POST['txt_first_development'];

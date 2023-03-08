@@ -15,51 +15,51 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Prints a particular instance of soi
+ * Prints a particular instance of peerfeedback
  *
  * You can have a rather longer description of the file as well,
  * if you like, and it can span multiple lines.
  *
- * @package    mod_soi
+ * @package    mod_peerfeedback
  * @copyright  2016 Your Name <your@email.address>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-// Replace soi with the name of your module and remove this line.
+// Replace peerfeedback with the name of your module and remove this line.
 
 require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
 require_once(dirname(__FILE__) . '/lib.php');
 
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module ID, or
-$n = optional_param('n', 0, PARAM_INT);  // ... soi instance ID - it should be named as the first character of the module.
+$n = optional_param('n', 0, PARAM_INT);  // ... peerfeedback instance ID - it should be named as the first character of the module.
 $returnto = optional_param('returnto', null, PARAM_ALPHA);
 
 if ($id) {
-    $cm = get_coursemodule_from_id('soi', $id, 0, false, MUST_EXIST);
+    $cm = get_coursemodule_from_id('peerfeedback', $id, 0, false, MUST_EXIST);
     $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
-    $soi = $DB->get_record('soi', array('id' => $cm->instance), '*', MUST_EXIST);
+    $peerfeedback = $DB->get_record('peerfeedback', array('id' => $cm->instance), '*', MUST_EXIST);
 } else if ($n) {
-    $soi = $DB->get_record('soi', array('id' => $n), '*', MUST_EXIST);
-    $course = $DB->get_record('course', array('id' => $soi->course), '*', MUST_EXIST);
-    $cm = get_coursemodule_from_instance('soi', $soi->id, $course->id, false, MUST_EXIST);
+    $peerfeedback = $DB->get_record('peerfeedback', array('id' => $n), '*', MUST_EXIST);
+    $course = $DB->get_record('course', array('id' => $peerfeedback->course), '*', MUST_EXIST);
+    $cm = get_coursemodule_from_instance('peerfeedback', $peerfeedback->id, $course->id, false, MUST_EXIST);
 } else {
     error('You must specify a course_module ID or an instance ID');
 }
 
 require_login($course, true, $cm);
 
-$event = \mod_soi\event\course_module_viewed::create(array(
+$event = \mod_peerfeedback\event\course_module_viewed::create(array(
             'objectid' => $PAGE->cm->instance,
             'context' => $PAGE->context,
         ));
 $event->add_record_snapshot('course', $PAGE->course);
-$event->add_record_snapshot($PAGE->cm->modname, $soi);
+$event->add_record_snapshot($PAGE->cm->modname, $peerfeedback);
 $event->trigger();
 
 // Print the page header.
 
-$PAGE->set_url('/mod/soi/view.php', array('id' => $cm->id));
-$PAGE->set_title(format_string($soi->name));
+$PAGE->set_url('/mod/peerfeedback/view.php', array('id' => $cm->id));
+$PAGE->set_title(format_string($peerfeedback->name));
 $PAGE->set_heading(format_string($course->fullname));
 
 // Output starts here.
@@ -168,7 +168,7 @@ echo html_writer::start_tag('h6');
 echo "Feedback from my team:";
 echo html_writer::end_tag('h6');
 echo html_writer::start_tag('div', ["class" => "feedback_history history_scroll"]);
-$feedbacks = $DB->get_records_sql("Select * From {userfeedback} WHERE soi_id = ? AND receiver_id = ? Order by id DESC", [$id, $USER->id]);
+$feedbacks = $DB->get_records_sql("Select * From {userfeedback} WHERE peerfeedback_id = ? AND receiver_id = ? Order by id DESC", [$id, $USER->id]);
 if ($feedbacks) {
     echo html_writer::start_tag('ul');
     foreach ($feedbacks as $feedback) {
@@ -260,7 +260,7 @@ echo html_writer::end_tag('div');
 <script>
     $(document).ready(function () {
         $(document).on("change", ".member", function () {
-            var soi_id = "<?php echo $id ?>";
+            var peerfeedback_id = "<?php echo $id ?>";
             var provider_id = "<?php echo $USER->id; ?>";
             var receiver_id = $(".member :selected").val();
             var user_name = $(".member :selected").text();
@@ -268,11 +268,11 @@ echo html_writer::end_tag('div');
             if (provider_id && receiver_id) {
                 $("#selected_member").html(user_name);
                 $.ajax({
-                    url: '<?php echo "$CFG->wwwroot/mod/soi/feedback_ajax.php"; ?>',
+                    url: '<?php echo "$CFG->wwwroot/mod/peerfeedback/feedback_ajax.php"; ?>',
                     type: "POST",
                     dataType: 'json',
                     data: {
-                        soi_id: soi_id,
+                        peerfeedback_id: peerfeedback_id,
                         provider_id: provider_id,
                         receiver_id: receiver_id
                     },
@@ -289,7 +289,7 @@ echo html_writer::end_tag('div');
         });
 
         $(document).on("click", "#submit_feedback", function () {
-            var soi_id = "<?php echo $id ?>";
+            var peerfeedback_id = "<?php echo $id ?>";
             var comment = $("#comment").val();
             var receiver_id = $("#receiver_id :selected").val();
 
@@ -301,16 +301,16 @@ echo html_writer::end_tag('div');
                 $("#feedback_msg").html("Please provide feedback.");
                 $("#feedback_msg").css("color", "red");
                 return false;
-            } else if (!soi_id || (soi_id == 0)) {
+            } else if (!peerfeedback_id || (peerfeedback_id == 0)) {
                 $("#feedback_msg").html("some error occured.");
                 $("#feedback_msg").css("color", "red");
                 return false;
             } else {
                 $.ajax({
-                    url: '<?php echo "/mod/soi/feedback_submit.php"; ?>',
+                    url: '<?php echo "/mod/peerfeedback/feedback_submit.php"; ?>',
                     type: "POST",
                     data: {
-                        soi_id: soi_id,
+                        peerfeedback_id: peerfeedback_id,
                         comment: comment,
                         receiver_id: receiver_id
                     },

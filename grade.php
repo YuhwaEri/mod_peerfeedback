@@ -17,7 +17,7 @@
 /**
  * Redirect the user to the appropriate submission related page
  *
- * @package   mod_soi
+ * @package   mod_peerfeedback
  * @category  grade
  * @copyright  2018 Tarun Kumar <tarun_kumar@flexsin.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later

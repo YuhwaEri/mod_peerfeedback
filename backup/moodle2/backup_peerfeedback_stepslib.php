@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Define all the backup steps that will be used by the backup_soi_activity_task
+ * Define all the backup steps that will be used by the backup_peerfeedback_activity_task
  *
- * @package   mod_soi
+ * @package   mod_peerfeedback
  * @category  backup
  * @copyright 2016 Your Name <your@email.address>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -26,14 +26,14 @@
 defined('MOODLE_INTERNAL') || die;
 
 /**
- * Define the complete soi structure for backup, with file and id annotations
+ * Define the complete peerfeedback structure for backup, with file and id annotations
  *
- * @package   mod_soi
+ * @package   mod_peerfeedback
  * @category  backup
  * @copyright 2016 Your Name <your@email.address>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class backup_soi_activity_structure_step extends backup_activity_structure_step {
+class backup_peerfeedback_activity_structure_step extends backup_activity_structure_step {
 
     /**
      * Defines the backup structure of the module
@@ -45,22 +45,22 @@ class backup_soi_activity_structure_step extends backup_activity_structure_step 
         // Get know if we are including userinfo.
         $userinfo = $this->get_setting_value('userinfo');
 
-        // Define the root element describing the soi instance.
-        $soi = new backup_nested_element('soi', array('id'), array(
+        // Define the root element describing the peerfeedback instance.
+        $peerfeedback = new backup_nested_element('peerfeedback', array('id'), array(
             'name', 'intro', 'introformat', 'grade'));
 
         // If we had more elements, we would build the tree here.
 
         // Define data sources.
-        $soi->set_source_table('soi', array('id' => backup::VAR_ACTIVITYID));
+        $peerfeedback->set_source_table('peerfeedback', array('id' => backup::VAR_ACTIVITYID));
 
         // If we were referring to other tables, we would annotate the relation
         // with the element's annotate_ids() method.
 
         // Define file annotations (we do not use itemid in this example).
-        $soi->annotate_files('mod_soi', 'intro', null);
+        $peerfeedback->annotate_files('mod_peerfeedback', 'intro', null);
 
-        // Return the root element (soi), wrapped into standard activity structure.
-        return $this->prepare_activity_structure($soi);
+        // Return the root element (peerfeedback), wrapped into standard activity structure.
+        return $this->prepare_activity_structure($peerfeedback);
     }
 }
