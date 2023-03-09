@@ -6,10 +6,10 @@ global $DB, $USER, $CFG;
 
 $provider_id = optional_param('provider_id',0,PARAM_INT);
 $receiver_id = optional_param('receiver_id',0,PARAM_INT);
-$soi_id = optional_param('soi_id',0,PARAM_INT);
+$peerfeedback_id = optional_param('peerfeedback_id',0,PARAM_INT);
 
-//var_dump($provider_id,$receiver_id,$soi_id);
-$userDetail = $DB->get_record_sql("Select * From {soi_feedback_area} WHERE userid = ?", [$receiver_id]) ?? [];
+//var_dump($provider_id,$receiver_id,$peerfeedback_id);
+$userDetail = $DB->get_record_sql("Select * From {peerfeedback_feedback_area} WHERE userid = ?", [$receiver_id]) ?? [];
 $receiver = $DB->get_record('user', ['id' => $receiver_id]);
 
 $strength = '';
@@ -53,7 +53,7 @@ if ($receiver) {
 
 
 $feeds = '';
-$feedbacks = $DB->get_records_sql("Select * From {soi_userfeedback} WHERE (soi_id = ? AND (provider_id = ? AND receiver_id = ?)) order by id DESC", [$soi_id, $provider_id, $receiver_id]);
+$feedbacks = $DB->get_records_sql("Select * From {peerfeedback_userfeedback} WHERE (peerfeedback_id = ? AND (provider_id = ? AND receiver_id = ?)) order by id DESC", [$peerfeedback_id, $provider_id, $receiver_id]);
 if ($receiver) {
 
     $feeds = html_writer::start_tag('h6');

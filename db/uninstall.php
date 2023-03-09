@@ -19,7 +19,7 @@
  *
  * @see uninstall_plugin()
  *
- * @package    mod_soi
+ * @package    mod_peerfeedback
  * @copyright  2016 Your Name <your@email.address>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -27,6 +27,6 @@
 /**
  * Custom uninstallation procedure
  */
-function xmldb_soi_uninstall() {
+function xmldb_peerfeedback_uninstall() {
     return true;
 }

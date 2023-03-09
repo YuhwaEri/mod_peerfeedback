@@ -16,12 +16,12 @@
 
 
 /**
- * English strings for soi
+ * English strings for peerfeedback
  *
  * You can have a rather longer description of the file as well,
  * if you like, and it can span multiple lines.
  *
- * @package    mod_soi
+ * @package    mod_peerfeedback
  * @copyright  2018 Tarun Kumar <tarun_kumar@flexsin.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -29,14 +29,14 @@
 defined('MOODLE_INTERNAL') || die();
 
 $string['modulename'] = 'Peer Feedback';
-$string['modulenameplural'] = 'sois';
-$string['modulename_help'] = 'Use the soi module for... | The soi module allows...';
-$string['soi:addinstance'] = 'Add a new Peer Feedback';
-$string['soi:submit'] = 'Submit soi';
-$string['soi:view'] = 'View soi';
-$string['soifieldset'] = 'Custom example fieldset';
-$string['soiname'] = 'soi name';
-$string['soiname_help'] = 'This is the content of the help tooltip associated with the soiname field. Markdown syntax is supported.';
-$string['soi'] = 'Peer Feedback';
-$string['pluginadministration'] = 'soi administration';
+$string['modulenameplural'] = 'peerfeedbacks';
+$string['modulename_help'] = 'Use the peerfeedback module for... | The peerfeedback module allows...';
+$string['peerfeedback:addinstance'] = 'Add a new Peer Feedback';
+$string['peerfeedback:submit'] = 'Submit peerfeedback';
+$string['peerfeedback:view'] = 'View peerfeedback';
+$string['peerfeedbackfieldset'] = 'Custom example fieldset';
+$string['peerfeedbackname'] = 'peerfeedback name';
+$string['peerfeedbackname_help'] = 'This is the content of the help tooltip associated with the peerfeedbackname field. Markdown syntax is supported.';
+$string['peerfeedback'] = 'Peer Feedback';
+$string['pluginadministration'] = 'peerfeedback administration';
 $string['pluginname'] = 'Peer Feedback';

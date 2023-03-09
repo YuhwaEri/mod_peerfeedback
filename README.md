@@ -5,7 +5,7 @@
 
 You can install this plugin from from [Github](https://github.com/cperatoner/peerfeedback).
 
-You can download zip file and install or you can put file under mod as soi
+You can download zip file and install or you can put file under mod as peerfeedback
 
 ## Plugin install
 ### Go to

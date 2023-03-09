@@ -5,8 +5,8 @@ require_once(dirname(__FILE__) . '/lib.php');
 global $DB;
 //Update Strength and Development areas
 $valid = false;
-$soi_id = isset($_GET['id']) ? $_GET['id'] : 0;
-if ($soi_id) {
+$peerfeedback_id = isset($_GET['id']) ? $_GET['id'] : 0;
+if ($peerfeedback_id) {
 
     $txt_first_stregth = required_param('txt_first_stregth',PARAM_RAW);
     $txt_second_stregth = required_param('txt_second_stregth',PARAM_RAW);
@@ -19,26 +19,26 @@ if ($soi_id) {
     $word_count4 = str_word_count($txt_second_development);
     if ($word_count1 >= 75 && $word_count2 >= 75 && $word_count3 >= 75 && $word_count4 >= 75) {
 
-        $record = $DB->get_record('soi_feedback_area', ['userid' => $soi_id]);
+        $record = $DB->get_record('peerfeedback_feedback_area', ['userid' => $peerfeedback_id]);
 
         if ($record) {
 
-            $update_sql = "UPDATE {soi_feedback_area} SET first_behavioral=:first_behavioral, second_behavioral=:second_behavioral, first_development=:first_development, second_development=:second_development WHERE userid=:userid";
+            $update_sql = "UPDATE {peerfeedback_feedback_area} SET first_behavioral=:first_behavioral, second_behavioral=:second_behavioral, first_development=:first_development, second_development=:second_development WHERE userid=:userid";
             $DB->execute($update_sql,
                 [
                     'first_behavioral' => $txt_first_stregth,
                     'second_behavioral' => $txt_second_stregth,
                     'first_development' => $txt_first_development,
                     'second_development' => $txt_second_development,
-                    'userid' => $soi_id
+                    'userid' => $peerfeedback_id
                 ]
             );
 
         } else {
-            $DB->insert_record("soi_feedback_area",
+            $DB->insert_record("peerfeedback_feedback_area",
                 ["first_behavioral" => $txt_first_stregth,
                     "second_behavioral" => $txt_second_stregth,
-                    "first_development" => $txt_first_development, "second_development" => $txt_second_development, "userid" => $soi_id]);
+                    "first_development" => $txt_first_development, "second_development" => $txt_second_development, "userid" => $peerfeedback_id]);
         }
         $valid = true;
     }

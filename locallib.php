@@ -15,12 +15,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Internal library of functions for module soi
+ * Internal library of functions for module peerfeedback
  *
- * All the soi specific functions, needed to implement the module
+ * All the peerfeedback specific functions, needed to implement the module
  * logic, should go here. Never include this file from your lib.php!
  *
- * @package    mod_soi
+ * @package    mod_peerfeedback
  * @copyright  2018 Tarun Kumar <tarun_kumar@flexsin.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -32,7 +32,7 @@ defined('MOODLE_INTERNAL') || die();
  *
  * @param array $things
  * @return object
- *function soi_do_something_useful(array $things) {
+ *function peerfeedback_do_something_useful(array $things) {
  *    return new stdClass();
  *}
  */

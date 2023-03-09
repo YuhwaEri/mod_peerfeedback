@@ -15,12 +15,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * The main soi configuration form
+ * The main peerfeedback configuration form
  *
  * It uses the standard core Moodle formslib. For more info about them, please
  * visit: http://docs.moodle.org/en/Development:lib/formslib.php
  *
- * @package    mod_soi
+ * @package    mod_peerfeedback
  * @copyright  2018 Tarun Kumar <tarun_kumar@flexsin.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -32,11 +32,11 @@ require_once($CFG->dirroot.'/course/moodleform_mod.php');
 /**
  * Module instance settings form
  *
- * @package    mod_soi
+ * @package    mod_peerfeedback
  * @copyright  2018 Tarun Kumar <tarun_kumar@flexsin.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_soi_mod_form extends moodleform_mod {
+class mod_peerfeedback_mod_form extends moodleform_mod {
 
     /**
      * Defines forms elements
@@ -50,7 +50,7 @@ class mod_soi_mod_form extends moodleform_mod {
         $mform->addElement('header', 'general', get_string('general', 'form'));
 
         // Adding the standard "name" field.
-        $mform->addElement('text', 'name', get_string('soiname', 'soi'), array('size' => '64'));
+        $mform->addElement('text', 'name', get_string('peerfeedbackname', 'peerfeedback'), array('size' => '64'));
         if (!empty($CFG->formatstringstriptags)) {
             $mform->setType('name', PARAM_TEXT);
         } else {
@@ -58,7 +58,7 @@ class mod_soi_mod_form extends moodleform_mod {
         }
         $mform->addRule('name', null, 'required', null, 'client');
         $mform->addRule('name', get_string('maximumchars', '', 255), 'maxlength', 255, 'client');
-        $mform->addHelpButton('name', 'soiname', 'soi');
+        $mform->addHelpButton('name', 'peerfeedbackname', 'peerfeedback');
 
         // Adding the standard "intro" and "introformat" fields.
         if ($CFG->branch >= 29) {
@@ -67,12 +67,12 @@ class mod_soi_mod_form extends moodleform_mod {
             $this->add_intro_editor();
         }
 
-        // Adding the rest of soi settings, spreading all them into this fieldset
+        // Adding the rest of peerfeedback settings, spreading all them into this fieldset
         // ... or adding more fieldsets ('header' elements) if needed for better logic.
-        $mform->addElement('static', 'label1', 'soisetting1', 'Your soi fields go here. Replace me!');
+//         $mform->addElement('static', 'label1', 'peerfeedbacksetting1', 'Your peerfeedback fields go here. Replace me!');
 
-        $mform->addElement('header', 'soifieldset', get_string('soifieldset', 'soi'));
-        $mform->addElement('static', 'label2', 'soisetting2', 'Your soi fields go here. Replace me!');
+//         $mform->addElement('header', 'peerfeedbackfieldset', get_string('peerfeedbackfieldset', 'peerfeedback'));
+//         $mform->addElement('static', 'label2', 'peerfeedbacksetting2', 'Your peerfeedback fields go here. Replace me!');
 
         // Add standard grading elements.
         $this->standard_grading_coursemodule_elements();

@@ -20,15 +20,15 @@
  * Setting the $plugin->version to 0 prevents the plugin from being installed.
  * See https://docs.moodle.org/dev/version.php for more info.
  *
- * @package    mod_soi
+ * @package    mod_peerfeedback
  * @copyright  2016 Your Name <your@email.address>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'mod_soi';
-$plugin->version = 2023030105;
+$plugin->component = 'mod_peerfeedback';
+$plugin->version = 2023030106;
 $plugin->release = 'v1.0.0';
 $plugin->requires = 2017110800;
 $plugin->maturity = MATURITY_ALPHA;

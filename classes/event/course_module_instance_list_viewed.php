@@ -15,21 +15,21 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * The mod_soi instance list viewed event.
+ * The mod_peerfeedback instance list viewed event.
  *
- * @package    mod_soi
+ * @package    mod_peerfeedback
  * @copyright  2016 Your Name <your@email.address>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace mod_soi\event;
+namespace mod_peerfeedback\event;
 
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * The mod_soi instance list viewed event class.
+ * The mod_peerfeedback instance list viewed event class.
  *
- * @package    mod_soi
+ * @package    mod_peerfeedback
  * @copyright  2016 Your Name <your@email.address>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

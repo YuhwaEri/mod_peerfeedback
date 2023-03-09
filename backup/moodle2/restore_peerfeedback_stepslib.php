@@ -15,23 +15,23 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Define all the restore steps that will be used by the restore_soi_activity_task
+ * Define all the restore steps that will be used by the restore_peerfeedback_activity_task
  *
- * @package   mod_soi
+ * @package   mod_peerfeedback
  * @category  backup
  * @copyright 2016 Your Name <your@email.address>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 /**
- * Structure step to restore one soi activity
+ * Structure step to restore one peerfeedback activity
  *
- * @package   mod_soi
+ * @package   mod_peerfeedback
  * @category  backup
  * @copyright 2016 Your Name <your@email.address>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class restore_soi_activity_structure_step extends restore_activity_structure_step {
+class restore_peerfeedback_activity_structure_step extends restore_activity_structure_step {
 
     /**
      * Defines structure of path elements to be processed during the restore
@@ -41,7 +41,7 @@ class restore_soi_activity_structure_step extends restore_activity_structure_ste
     protected function define_structure() {
 
         $paths = array();
-        $paths[] = new restore_path_element('soi', '/activity/soi');
+        $paths[] = new restore_path_element('peerfeedback', '/activity/peerfeedback');
 
         // Return the paths wrapped into standard activity structure.
         return $this->prepare_activity_structure($paths);
@@ -52,7 +52,7 @@ class restore_soi_activity_structure_step extends restore_activity_structure_ste
      *
      * @param array $data parsed element data
      */
-    protected function process_soi($data) {
+    protected function process_peerfeedback($data) {
         global $DB;
 
         $data = (object)$data;
@@ -72,8 +72,8 @@ class restore_soi_activity_structure_step extends restore_activity_structure_ste
             $data->grade = -($this->get_mappingid('scale', abs($data->grade)));
         }
 
-        // Create the soi instance.
-        $newitemid = $DB->insert_record('soi', $data);
+        // Create the peerfeedback instance.
+        $newitemid = $DB->insert_record('peerfeedback', $data);
         $this->apply_activity_instance($newitemid);
     }
 
@@ -81,7 +81,7 @@ class restore_soi_activity_structure_step extends restore_activity_structure_ste
      * Post-execution actions
      */
     protected function after_execute() {
-        // Add soi related files, no need to match by itemname (just internally handled context).
-        $this->add_related_files('mod_soi', 'intro', null);
+        // Add peerfeedback related files, no need to match by itemname (just internally handled context).
+        $this->add_related_files('mod_peerfeedback', 'intro', null);
     }
 }
