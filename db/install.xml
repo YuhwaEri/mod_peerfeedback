@@ -23,7 +23,7 @@
       </INDEXES>
     </TABLE>
 
-    <TABLE NAME="soi_feedback_area" COMMENT="Default comment for soi, please edit me">
+    <TABLE NAME="peerfeedback_feedback_area" COMMENT="Default comment for peerfeedback, please edit me">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true"/>
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" COMMENT="USER ID"/>
@@ -41,12 +41,12 @@
       </INDEXES>
     </TABLE>
 
-    <TABLE NAME="soi_userfeedback" COMMENT="Default comment for soi, please edit me">
+    <TABLE NAME="peerfeedback_userfeedback" COMMENT="Default comment for peerfeedback, please edit me">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true"/>
         <FIELD NAME="provider_id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" COMMENT="USER ID"/>
         <FIELD NAME="receiver_id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" COMMENT="USER ID"/>
-        <FIELD NAME="soi_id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" COMMENT="USER ID"/>
+        <FIELD NAME="peerfeedback_id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" COMMENT="USER ID"/>
         <FIELD NAME="comment" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="first_behavioral"/>
         <FIELD NAME="created_at" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
       </FIELDS>
