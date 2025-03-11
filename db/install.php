@@ -31,6 +31,7 @@
  * @see upgrade_plugins_modules()
  */
 function xmldb_peerfeedback_install() {
+    global $CFG;
 }
 
 /**

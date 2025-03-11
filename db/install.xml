@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="mod/peerfeedback/db" VERSION="20101203" COMMENT="XMLDB file for Moodle mod/peerfeedback"
+<XMLDB PATH="mod/peerfeedback/db" VERSION="20250201" COMMENT="XMLDB file for Moodle mod/peerfeedback"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
   <TABLES>
     <TABLE NAME="peerfeedback" COMMENT="Default comment for peerfeedback, please edit me">
       <FIELDS>
-        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true"/>
-        <FIELD NAME="course" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" COMMENT="Course peerfeedback activity belongs to"/>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="course" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Course peerfeedback activity belongs to"/>
         <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="name field for moodle instances"/>
         <FIELD NAME="intro" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="General introduction of the peerfeedback activity"/>
-        <FIELD NAME="introformat" TYPE="int" LENGTH="4" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="Format of the intro field (MOODLE, HTML, MARKDOWN...)"/>
-        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false"/>
-        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="introformat" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Format of the intro field (MOODLE, HTML, MARKDOWN...)"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="grade" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="100" SEQUENCE="false" COMMENT="The maximum grade. Can be negative to indicate the use of a scale."/>
       </FIELDS>
       <KEYS>
@@ -22,33 +22,14 @@
         <INDEX NAME="course" UNIQUE="false" FIELDS="course"/>
       </INDEXES>
     </TABLE>
-
-    <TABLE NAME="peerfeedback_feedback_area" COMMENT="Default comment for peerfeedback, please edit me">
+    <TABLE NAME="userfeedback" COMMENT="Table to hold comments from other users">
       <FIELDS>
-        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true"/>
-        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" COMMENT="USER ID"/>
-        <FIELD NAME="first_behavioral" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="first_behavioral"/>
-        <FIELD NAME="second_behavioral" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="second_behavioral"/>
-        <FIELD NAME="first_development" TYPE="text" NOTNULL="true"  SEQUENCE="false" COMMENT="first_development"/>
-        <FIELD NAME="second_development" TYPE="text" NOTNULL="true" SEQUENCE="false"/>
-        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
-      </FIELDS>
-      <KEYS>
-        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
-      </KEYS>
-      <INDEXES>
-        <INDEX NAME="user" UNIQUE="false" FIELDS="id"/>
-      </INDEXES>
-    </TABLE>
-
-    <TABLE NAME="peerfeedback_userfeedback" COMMENT="Default comment for peerfeedback, please edit me">
-      <FIELDS>
-        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true"/>
-        <FIELD NAME="provider_id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" COMMENT="USER ID"/>
-        <FIELD NAME="receiver_id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" COMMENT="USER ID"/>
-        <FIELD NAME="peerfeedback_id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" COMMENT="USER ID"/>
-        <FIELD NAME="comment" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="first_behavioral"/>
-        <FIELD NAME="created_at" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="provider_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="receiver_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="soi_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="comment" TYPE="text" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="created_at" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>

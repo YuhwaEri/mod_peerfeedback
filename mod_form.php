@@ -69,10 +69,10 @@ class mod_peerfeedback_mod_form extends moodleform_mod {
 
         // Adding the rest of peerfeedback settings, spreading all them into this fieldset
         // ... or adding more fieldsets ('header' elements) if needed for better logic.
-//        $mform->addElement('static', 'label1', 'peerfeedbacksetting1', 'Your peerfeedback fields go here. Replace me!');
-//
-//        $mform->addElement('header', 'peerfeedbackfieldset', get_string('peerfeedbackfieldset', 'peerfeedback'));
-//        $mform->addElement('static', 'label2', 'peerfeedbacksetting2', 'Your peerfeedback fields go here. Replace me!');
+//         $mform->addElement('static', 'label1', 'peerfeedbacksetting1', 'Your peerfeedback fields go here. Replace me!');
+
+//         $mform->addElement('header', 'peerfeedbackfieldset', get_string('peerfeedbackfieldset', 'peerfeedback'));
+//         $mform->addElement('static', 'label2', 'peerfeedbacksetting2', 'Your peerfeedback fields go here. Replace me!');
 
         // Add standard grading elements.
         $this->standard_grading_coursemodule_elements();

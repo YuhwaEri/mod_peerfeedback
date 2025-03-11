@@ -149,6 +149,12 @@ function xmldb_peerfeedback_upgrade($oldversion) {
 
         upgrade_mod_savepoint(true, 2007040200, 'peerfeedback');
     }
+    if ($oldversion < 2017111300) {
+
+        // Insert code here to perform some actions (same as in install.php).
+
+        upgrade_mod_savepoint(true, 2007040200, 'peerfeedback');
+    }
 
     /*
      * And that's all. Please, examine and understand the 3 example blocks above. Also
@@ -162,74 +168,5 @@ function xmldb_peerfeedback_upgrade($oldversion) {
      *
      * Finally, return of upgrade result (true, all went good) to Moodle.
      */
-
-
-    if ($oldversion < 2023030105) {
-        // Define table peerfeedback to be created.
-        $table = new xmldb_table('peerfeedback');
-
-        // Adding fields to table peerfeedback.
-        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, XMLDB_SEQUENCE);
-        $table->add_field('course', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL);
-        $table->add_field('name', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL);
-        $table->add_field('intro', XMLDB_TYPE_TEXT, null, null, XMLDB_NOTNULL);
-        $table->add_field('introformat', XMLDB_TYPE_INTEGER, '4', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '0');
-        $table->add_field('timecreated', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL);
-        $table->add_field('timemodified', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, null, null, '0');
-        $table->add_field('grade', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '100');
-
-        // Adding keys to table peerfeedback.
-        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
-
-        // Adding indexes to table peerfeedback.
-        $table->add_index('course', XMLDB_INDEX_NOTUNIQUE, array('course'));
-
-        // Conditionally launch create table for peerfeedback.
-        if (!$dbman->table_exists($table)) {
-            $dbman->create_table($table);
-        }
-
-        // Define table peerfeedback_feedback_area to be created.
-        $table = new xmldb_table('peerfeedback_feedback_area');
-
-        // Adding fields to table peerfeedback_feedback_area.
-        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, XMLDB_SEQUENCE);
-        $table->add_field('userid', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL);
-        $table->add_field('first_behavioral', XMLDB_TYPE_TEXT, null, null, XMLDB_NOTNULL);
-        $table->add_field('second_behavioral', XMLDB_TYPE_TEXT, null, null, XMLDB_NOTNULL);
-        $table->add_field('first_development', XMLDB_TYPE_TEXT, null, null, XMLDB_NOTNULL);
-        $table->add_field('second_development', XMLDB_TYPE_TEXT, null, null, XMLDB_NOTNULL);
-        $table->add_field('timemodified', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, null, null, '0');
-
-        // Adding keys to table peerfeedback_feedback_area.
-        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
-
-        // Adding indexes to table peerfeedback_feedback_area.
-        $table->add_index('user', XMLDB_INDEX_NOTUNIQUE, array('userid'));
-
-        // Conditionally launch create table for peerfeedback_feedback_area.
-        if (!$dbman->table_exists($table)) {
-            $dbman->create_table($table);
-        }
-
-        // Define table peerfeedback_userfeedback to be created.
-        $table = new xmldb_table('peerfeedback_userfeedback');
-
-        // Adding fields to table peerfeedback_feedback_area.
-        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, XMLDB_SEQUENCE);
-        $table->add_field('provider_id', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL);
-        $table->add_field('receiver_id', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL);
-        $table->add_field('peerfeedback_id', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL);
-        $table->add_field('comment', XMLDB_TYPE_TEXT, null, null, XMLDB_NOTNULL);
-        $table->add_field('created_at', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, null, null, '0');
-
-        // Adding keys to table peerfeedback_feedback_area.
-        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
-
-        // Conditionally launch create table for peerfeedback_feedback_area.
-        if (!$dbman->table_exists($table)) {
-            $dbman->create_table($table);
-        }
-    }
     return true;
 }
